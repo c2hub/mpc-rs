@@ -1,0 +1,31 @@
+module test;
+
+import stdio as io;
+
+public func int32 main(int32 argc, char** argv)
+{
+	io.printf("hello, world!\n");
+//	return 0;
+}
+
+type Test struct
+{
+	int32 banana;
+}
+
+type Enum enum int8
+{
+	Banana,
+	Mandarinka,
+	Ananas
+}
+
+type End union
+{
+	int32 i32;
+	int16 i16;
+}
+
+int32 banana;
+
+public func void t() {}
