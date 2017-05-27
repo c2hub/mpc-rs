@@ -3,6 +3,7 @@
 use mpc_c_types::*;
 use std::slice;
 
+#[derive(Clone)]
 pub struct Ast
 {
 	pub raw_ast: *mut mpc_ast_t,
@@ -11,11 +12,12 @@ pub struct Ast
 	pub children: Vec<Ast>,
 }
 
-pub struct Child
+#[derive(Clone)]
+pub struct Child<'a>
 {
-	pub parent: Ast,
-	pub ast: Ast,
-	pub index: i32,
+	pub parent: &'a Ast,
+	pub ast: &'a Ast,
+	pub index: usize,
 }
 
 
@@ -43,5 +45,61 @@ impl Ast
 				children: children,
 			}
 		}
+	}
+
+	pub fn by_index(&self, index: usize) -> Option<Child>
+	{
+		if index < self.children.len()
+		{
+			Some(Child
+			{
+				parent: self,
+				ast: &self.children[index],
+				index: index,
+			})
+		}
+		else { None }
+	}
+
+	pub fn by_tag(&self, tag: &str) -> Option<Child>
+	{
+		let children = self.children.clone().into_iter();
+		let index: i32 =
+			if let Some(_) =
+				children.clone().filter(|x| x.tag == tag).next()
+					{ children.count() as i32 }
+			else { -1 };
+
+		if index > -1
+		{
+			Some(Child
+			{
+				parent: self,
+				ast: &self.children[index as usize],
+				index: index as usize
+			})
+		}
+		else { None }
+	}
+
+	pub fn by_contents(&self, contents: &str) -> Option<Child>
+	{
+		let children = self.children.clone().into_iter();
+		let index: i32 =
+			if let Some(_) =
+				children.clone().filter(|x| x.contents == contents).next()
+					{ children.count() as i32 }
+			else { -1 };
+
+		if index > -1
+		{
+			Some(Child
+			{
+				parent: self,
+				ast: &self.children[index as usize],
+				index: index as usize
+			})
+		}
+		else { None }
 	}
 }
