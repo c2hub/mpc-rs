@@ -1,5 +1,5 @@
 #[macro_export]
-macro_rules! c_str
+macro_rules! c_str /* C to String */
 {
 	($str:expr) => 
 	{{
@@ -9,7 +9,7 @@ macro_rules! c_str
 }
 
 #[macro_export]
-macro_rules! str_c
+macro_rules! str_c /* String from C */
 {
 	($ptr:expr) =>
 	{{
@@ -19,7 +19,7 @@ macro_rules! str_c
 }
 
 #[macro_export]
-macro_rules! dfs
+macro_rules! dfs /* dereferenced's member to String */
 {
 	($ptr:expr, $mem:ident) =>
 	{{
@@ -28,9 +28,26 @@ macro_rules! dfs
 }
 
 #[macro_export]
+macro_rules! dfu /* dereferenced's member to usize */
+{
+	($ptr:expr, $mem:ident) =>
+	{{
+		(*$ptr).$mem as usize
+	}};
+	($ptr:expr, $mem1:ident . $mem2:ident) =>
+	{{
+		(*$ptr).$mem1.$mem2 as usize
+	}}
+}
+
+#[macro_export]
 macro_rules! parser
 {
-	($grammar:expr, $input:expr, $filename:expr, $top:ident, $($p:ident)+) =>
+	(grammar: {$grammar:expr}
+	 filename: {$filename:expr}
+	 input: {$input:expr}
+	 main: $top:ident
+	 parsers: $($p:ident)+) =>
 	{{ unsafe {
 		use glue;
 		use std::os::raw::c_void;
@@ -53,5 +70,5 @@ macro_rules! parser
 			c_str!($input),
 			$top,
 		)
-	}}}
+	}}};
 }
