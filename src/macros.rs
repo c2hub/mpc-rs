@@ -41,6 +41,32 @@ macro_rules! dfu /* dereferenced's member to usize */
 }
 
 #[macro_export]
+macro_rules! trace
+{
+	($arg:expr) =>
+	{{
+		print!("{}", $arg);
+	}};
+	($($arg:expr)+) =>
+	{{$(
+		print!("{}", $arg);
+	)+}};
+}
+
+#[macro_export]
+macro_rules! traceln
+{
+	($arg:expr) =>
+	{{
+		trace!($arg '\n');
+	}};
+	($($arg:expr)+) =>
+	{{
+		trace!( $( $arg )+ '\n');
+	}}
+}
+
+#[macro_export]
 macro_rules! parser
 {
 	/* gimme everything variant */
