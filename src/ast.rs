@@ -1,5 +1,6 @@
 #![allow(dead_code)]
 
+use colors::*;
 use mpc_c_types::*;
 use std::slice;
 
@@ -105,5 +106,38 @@ impl Ast
 			})
 		}
 		else { None }
+	}
+
+	pub fn print(&self)
+	{
+		self.print_level(0);
+	}
+
+	pub fn print_level(&self, level: usize)
+	{
+		for _ in 0..level {trace!("  ");}
+		if self.children.is_empty()
+		{
+			trace!(
+				RED self.tag
+				RESET ':'
+				GREEN self.row
+				RESET ':'
+				YELLOW self.column " "
+				RESET '\''
+				self.contents "'\n"
+			);
+		}
+		else
+		{
+			trace!(
+				MAGENTA self.tag
+				RESET "\n"
+			);
+			for child in &self.children
+			{
+				child.print_level(level+1);
+			}
+		}
 	}
 }
