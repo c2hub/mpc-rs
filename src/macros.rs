@@ -67,6 +67,15 @@ macro_rules! traceln
 }
 
 #[macro_export]
+macro_rules! g_string /* couldn't help it */
+{
+	($($arg:expr)+) =>
+	{{
+		concat!( $( $arg, )+ )
+	}}
+}
+
+#[macro_export]
 macro_rules! parser
 {
 	/* gimme everything variant */
