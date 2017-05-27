@@ -4,6 +4,7 @@ mod glue;
 mod macros;
 
 mod mpc_c;
+mod ast;
 mod mpc_c_types;
 
 #[cfg(test)]
