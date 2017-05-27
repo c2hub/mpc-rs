@@ -1,10 +1,9 @@
-use glue::*;
+use glue;
 use mpc_c::*;
 use mpc_c_types::*;
-#[macro_use]
-use ::*;
+
 #[test]
-fn test_parse()
+fn mpca_parse()
 {
 	let result = parser!
 	{
@@ -24,6 +23,23 @@ fn test_parse()
 			println!("success!");
 			unsafe { mpc_ast_print(ast); } 
 		},
-		Err(_) => println!("fuck") 
+		Err(r) =>
+		{
+			println!("fail!");
+			unsafe { mpc_err_print(r); }
+			panic!();
+		} 
+	}
+}
+
+#[test]
+fn manual_parse()
+{
+	unsafe
+	{
+		if let Err(_) = glue::parse(c_str!("test text"), c_str!("a"), mpc_alpha())
+		{
+			panic!()
+		}
 	}
 }
