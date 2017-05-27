@@ -109,6 +109,35 @@ macro_rules! parser
 			$top,
 		)
 	}}};
+	/* no filename variant */
+	(grammar: {$grammar:expr}
+	 filename: {$filename:expr}
+	 input: {$input:expr}
+	 main: $top:ident
+	 parsers: $($p:ident)+) =>
+	{{ unsafe {
+		use glue;
+		use std::os::raw::c_void;
+		let $top = mpc_new(c_str!(stringify!($top)));
+		$
+		(
+			let $p = mpc_new(c_str!(stringify!($p)));
+		)+
+
+		mpca_lang(
+			mpca_lang_type::MPCA_LANG_DEFAULT,
+			c_str!($grammar)
+			$(, $p)+,
+			$top,
+			0 as *mut c_void
+		);
+
+		glue::parse(
+			c_str!("<input>"),
+			c_str!($input),
+			$top,
+		)
+	}}};
 	/* prepare parsers for later use */
 	(grammar: {$grammar:expr}
 	 main: $top:ident
@@ -154,6 +183,17 @@ macro_rules! run_parser
 
 		glue::parse(
 			c_str!($filename),
+			c_str!($input),
+			$preparsers[0]
+		);
+	}};
+	(preparsers: $preparsers:ident
+	 input: {$input:expr}) =>
+	{{
+		use glue;
+
+		glue::parse(
+			c_str!("<input>"),
 			c_str!($input),
 			$preparsers[0]
 		);
