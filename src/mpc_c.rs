@@ -246,9 +246,9 @@ extern
 	pub fn mpc_stats(p: *mut mpc_parser_t);
 
 	pub fn mpc_test_pass(
-		p: *mut mpc_parser_t, 
-		s: *const c_char, 
-		d: *const c_void, 
+		p: *mut mpc_parser_t,
+		s: *const c_char,
+		d: *const c_void,
 		tester: extern fn(a1: *const c_void, a2: *const c_void) -> i32,
 		destructor: mpc_dtor_t,
 		printer: extern fn(p: *const c_void)
@@ -256,8 +256,8 @@ extern
 
 	pub fn mpc_test_fail(
 		p: *mut mpc_parser_t,
-		s: *const c_char, 
-		d: *const c_void, 
+		s: *const c_char,
+		d: *const c_void,
 		tester: extern fn(a1: *const c_void, a2: *const c_void) -> i32,
 		destructor: mpc_dtor_t,
 		printer: extern fn(p: *const c_void)

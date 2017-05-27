@@ -19,7 +19,7 @@ pub struct parse_result
 	pub ok: *mut mpc_ast_t,
 	pub err: *mut mpc_err_t,
 	pub res: res_t,
-} 
+}
 
 extern
 {

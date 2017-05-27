@@ -32,7 +32,7 @@ impl Ast
 		{
 			let mut children: Vec<Ast> = Vec::new();
 
-			for node in 
+			for node in
 				slice::from_raw_parts((*ast_ptr).children, (*ast_ptr).children_num as usize)
 			{
 				children.push(Ast::new(*node));
