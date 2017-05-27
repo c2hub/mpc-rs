@@ -1,4 +1,5 @@
 mod glue;
+mod colors;
 
 #[macro_use]
 mod macros;
