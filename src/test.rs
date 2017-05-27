@@ -18,7 +18,7 @@ fn mpca_parse()
 		filename: {"test.txt"}
 		input:
 		{
-			"A big brown piece of shit jumped over something.".to_string() +
+			"A big brown piece of DOG jumped over something.".to_string() +
 			"Bananas are awesome. What do you mean, potato?"
 		}
 		main: paragraph
@@ -56,7 +56,7 @@ fn make_ast()
 		filename: {"test.txt"}
 		input:
 		{
-			"A big brown piece of shit jumped over something.".to_string() +
+			"A big brown piece of DOG jumped over something.".to_string() +
 			"Bananas are awesome. What do you mean, potato?"
 		}
 		main: paragraph
@@ -95,7 +95,7 @@ fn print_ast()
 		filename: {"test.txt"}
 		input:
 		{
-			"A big brown piece of shit jumped over something.".to_string() +
+			"A big brown piece of DOG jumped over something.".to_string() +
 			"Bananas are awesome. What do you mean, potato?"
 		}
 		main: paragraph
