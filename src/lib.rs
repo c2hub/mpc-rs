@@ -1,3 +1,5 @@
+#![feature(inclusive_range_syntax)]
+
 mod glue;
 mod colors;
 
