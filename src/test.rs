@@ -7,13 +7,21 @@ fn mpca_parse()
 {
 	let result = parser!
 	{
-	   "word : /[a-zA-Z0-9]+/;
-		punct: '.' | '!' | ',' | ';' | '?' | '-' | ':';
-		sentence: <word>+ <punct>;
-		paragraph: <sentence>+;",
-		"A big brown piece of shit jumped over something. Bananas are awesome. What do you mean, bitch?",
-		"test.txt",
-		paragraph, word punct sentence
+		grammar:
+		{
+			"word : /[a-zA-Z0-9]+/;                         \n".to_string() +
+			"punct: '.' | '!' | ',' | ';' | '?' | '-' | ':';\n" +
+			"sentence: <word>+ <punct>;                     \n" +
+			"paragraph: <sentence>+;                        \n"
+		}
+		filename: {"test.txt"}
+		input:
+		{
+			"A big brown piece of shit jumped over something.".to_string() +
+			"Bananas are awesome. What do you mean, potato?"
+		}
+		main: paragraph
+		parsers: word punct sentence
 	};
 
 	match result
