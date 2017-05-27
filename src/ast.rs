@@ -10,6 +10,9 @@ pub struct Ast
 	pub tag: String,
 	pub contents: String,
 	pub children: Vec<Ast>,
+	pub row: usize,
+	pub column: usize,
+	pub position: usize,
 }
 
 #[derive(Clone)]
@@ -27,8 +30,6 @@ impl Ast
 	{
 		unsafe
 		{
-			let tag = dfs!(ast_ptr, tag);
-			let contents = dfs!(ast_ptr, contents);
 			let mut children: Vec<Ast> = Vec::new();
 
 			for node in 
@@ -40,9 +41,12 @@ impl Ast
 			Ast
 			{
 				raw_ast: ast_ptr,
-				tag: tag,
-				contents: contents,
+				tag: dfs!(ast_ptr, tag),
+				contents: dfs!(ast_ptr, contents),
 				children: children,
+				row: dfu!(ast_ptr, state.row),
+				column: dfu!(ast_ptr, state.col),
+				position: dfu!(ast_ptr, state.pos),
 			}
 		}
 	}
