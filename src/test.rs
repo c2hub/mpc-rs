@@ -68,7 +68,7 @@ fn make_ast()
 		Ok(a) =>
 		{
 			let ast: Ast = Ast::new(a);
-			traceln!("len:" ast.children.len());
+			traceln!("\nlen:" ast.children.len());
 			traceln!("tag:" ast.tag);
 		},
 		Err(r) =>
@@ -108,6 +108,49 @@ fn print_ast()
 		{
 			let ast: Ast = Ast::new(a);
 			ast.print();
+		},
+		Err(r) =>
+		{
+			println!("fail!");
+			unsafe { mpc_err_print(r); }
+			panic!();
+		}
+	}
+}
+
+#[test]
+fn delayed_parse()
+{
+	let parsers = parser!
+	{
+		grammar:
+		{g_string![
+			"word : /[a-zA-Z0-9]+/;                         \n"
+			"punct: '.' | '!' | ',' | ';' | '?' | '-' | ':';\n"
+			"sentence: <word>+ <punct>;                     \n"
+			"paragraph: <sentence>+;                        \n"
+		]}
+		main: paragraph
+		parsers: word punct sentence
+	};
+
+	let result = run_parser!
+	{
+		preparsers: parsers
+		input:
+		{
+			"A big brown piece of DOG jumped over something.".to_string() +
+			"Bananas are awesome. What do you mean, potato?"
+		}
+	};
+
+	match result
+	{
+		Ok(a) =>
+		{
+			let ast: Ast = Ast::new(a);
+			traceln!("\nlen:" ast.children.len());
+			traceln!("tag:" ast.tag);
 		},
 		Err(r) =>
 		{
