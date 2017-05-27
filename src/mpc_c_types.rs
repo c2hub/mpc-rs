@@ -4,6 +4,11 @@
 use std::os::raw::{c_char, c_void};
 
 /*
+** Aliases
+*/
+pub type parser_ptr = *mut mpc_parser_t;
+
+/*
 ** State Type
 */
 
@@ -62,7 +67,8 @@ pub struct mpc_ast_t
 	pub tag: *const c_char,
 	pub contents: *const c_char,
 	pub state: mpc_state_t,
-	pub children_num: *const *const mpc_ast_t,
+	pub children_num: i32,
+	pub children: *mut *mut mpc_ast_t,
 }
 
 #[repr(u8)]
