@@ -178,9 +178,7 @@ macro_rules! parser
 	 main: $top:ident
 	 parsers: $($p:ident)+) =>
 	{{ unsafe {
-		use glue;
 		use std::os::raw::c_void;
-		use std::fs::File;
 
 		//need just the reference to topmost one,
 		//but other parser have to be kept alive as well
@@ -220,7 +218,7 @@ macro_rules! run_parser
 			c_str!($filename),
 			c_str!($input),
 			$preparsers[0]
-		);
+		)
 	}};
 	(preparsers: $preparsers:ident
 	 input: {$input:expr}) =>
@@ -231,7 +229,7 @@ macro_rules! run_parser
 			c_str!("<input>"),
 			c_str!($input),
 			$preparsers[0]
-		);
+		)
 	}};
 	(preparsers: $preparsers:ident
 	 filename: {$filename:expr}) =>
@@ -250,6 +248,6 @@ macro_rules! run_parser
 			c_str!($filename),
 			c_str!(input),
 			$preparsers[0]
-		);
+		)
 	}}
 }
