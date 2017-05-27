@@ -29,14 +29,14 @@ fn mpca_parse()
 		Ok(ast) =>
 		{
 			println!("success!");
-			unsafe { mpc_ast_print(ast); } 
+			unsafe { mpc_ast_print(ast); }
 		},
 		Err(r) =>
 		{
 			println!("fail!");
 			unsafe { mpc_err_print(r); }
 			panic!();
-		} 
+		}
 	}
 }
 
