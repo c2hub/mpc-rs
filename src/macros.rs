@@ -79,13 +79,14 @@ macro_rules! traceln
 /// simulate C's compile time string literal concatenation to allow copy-pasta of mpc
 /// grammars written in C without any hassle
 /// # Usage
-///```
-///g_string![
-///    "So many strings\n"
-///    "So many options\n"
-///    "So much things\n"
-///]
-///```
+///
+/// ```rust
+/// g_string![
+///      "So many strings\n"
+///      "So many options\n"
+///      "So much things\n"
+/// ]
+/// ```
 #[macro_export]
 macro_rules! g_string /* couldn't help it */
 {
@@ -101,67 +102,74 @@ macro_rules! g_string /* couldn't help it */
 /// does a slightly different thing:
 /// 1. To make a parser and immediately run on provided input
 /// in the form of something stringy:
-///```
-///parser!
-///{
-///    grammar:{g_string![
-///	        "word : /[a-zA-Z0-9]+/;                         \n"
-///	        "punct: '.' | '!' | ',' | ';' | '?' | '-' | ':';\n"
-///	        "sentence: <word>+ <punct>;                     \n"
-///	        "paragraph: <sentence>+;                        \n"
-///    ]}
-///    filename: {"myfilename.txt"}
-///    input: { "A big brown piece of DOG jumped over something.".to_string() +
-///             "Bananas are awesome. What do you mean, potato?""}
-///    main: paragraph
-///    parsers: word punct sentence
-///}
-///```
+///
+/// ```rust
+/// parser!
+/// {
+///     grammar:{g_string![
+///	         "word : /[a-zA-Z0-9]+/;                         \n"
+///	         "punct: '.' | '!' | ',' | ';' | '?' | '-' | ':';\n"
+///	         "sentence: <word>+ <punct>;                     \n"
+///	         "paragraph: <sentence>+;                        \n"
+///     ]}
+///     filename: {"myfilename.txt"}
+///     input: { "A big brown piece of DOG jumped over something.".to_string() +
+///             "Bananas are awesome. What do you mean, potato?"}
+///     main: paragraph
+///     parsers: word punct sentence
+/// }
+/// ```
+///
 /// 2. To do the same, but automatically read the file:
-///```
-///parser!
-///{
-///    grammar:{g_string![
-///	        "word : /[a-zA-Z0-9]+/;                         \n"
-///	        "punct: '.' | '!' | ',' | ';' | '?' | '-' | ':';\n"
-///	        "sentence: <word>+ <punct>;                     \n"
-///	        "paragraph: <sentence>+;                        \n"
-///    ]}
-///    filename: {"myfilename.txt"}
-///    main: paragraph
-///    parsers: word punct sentence
-///}
-///```
+///
+/// ```rust
+/// parser!
+/// {
+///     grammar:{g_string![
+///	         "word : /[a-zA-Z0-9]+/;                         \n"
+///	         "punct: '.' | '!' | ',' | ';' | '?' | '-' | ':';\n"
+///	         "sentence: <word>+ <punct>;                     \n"
+///	         "paragraph: <sentence>+;                        \n"
+///     ]}
+///     filename: {"myfilename.txt"}
+///     main: paragraph
+///     parsers: word punct sentence
+/// }
+/// ```
+///
 /// 3. Parse input without a filename:
-///```
-///parser!
-///{
-///    grammar:{g_string![
-///	        "word : /[a-zA-Z0-9]+/;                         \n"
-///	        "punct: '.' | '!' | ',' | ';' | '?' | '-' | ':';\n"
-///	        "sentence: <word>+ <punct>;                     \n"
-///	        "paragraph: <sentence>+;                        \n"
-///    ]}
-///    input: { "A big brown piece of DOG jumped over something.".to_string() +
-///             "Bananas are awesome. What do you mean, potato?""}
-///    main: paragraph
-///    parsers: word punct sentence
-///}
-///```
+///
+/// ```rust
+/// parser!
+/// {
+///     grammar:{g_string![
+///	         "word : /[a-zA-Z0-9]+/;                         \n"
+///	         "punct: '.' | '!' | ',' | ';' | '?' | '-' | ':';\n"
+///	         "sentence: <word>+ <punct>;                     \n"
+///	         "paragraph: <sentence>+;                        \n"
+///      ]}
+///      input: { "A big brown piece of DOG jumped over something.".to_string() +
+///               "Bananas are awesome. What do you mean, potato?"}
+///      main: paragraph
+///      parsers: word punct sentence
+/// }
+/// ```
+///
 /// 4. Prepare parsers for later use:
-///```
-///parser!
-///{
-///    grammar:{g_string![
-///	        "word : /[a-zA-Z0-9]+/;                         \n"
-///	        "punct: '.' | '!' | ',' | ';' | '?' | '-' | ':';\n"
-///	        "sentence: <word>+ <punct>;                     \n"
-///	        "paragraph: <sentence>+;                        \n"
-///    ]}
-///    main: paragraph
-///    parsers: word punct sentence
-///}
-///```
+///
+/// ```rust
+/// parser!
+/// {
+///     grammar:{g_string![
+///	         "word : /[a-zA-Z0-9]+/;                         \n"
+///	         "punct: '.' | '!' | ',' | ';' | '?' | '-' | ':';\n"
+///	         "sentence: <word>+ <punct>;                     \n"
+///	         "paragraph: <sentence>+;                        \n"
+///     ]}
+///     main: paragraph
+///     parsers: word punct sentence
+/// }
+/// ```
 /// For cases 1-3 `parser!` returns `Result<*mut mpc_ast_t, *mut mpc_err_t>`
 /// In case 4 `parser!` returns a vector containing prepared parsers. The vector
 /// is not to be touched by a programmer. Its sole purpose is to be passed to
