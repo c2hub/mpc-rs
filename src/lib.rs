@@ -1,6 +1,10 @@
+//! This crate provides simple bindings for orangeduck's mpc library.
+//! This is still a work in progress and contains a modified version of
+//! mpc and some temporary glue code
 #![feature(inclusive_range_syntax)]
+#![deny(warnings, missing_docs)]
 
-mod glue;
+pub mod glue;
 mod colors;
 
 #[macro_use]
