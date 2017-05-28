@@ -34,6 +34,26 @@ pub struct mpc_err_t
 	pub expected: *const *const c_char,
 }
 
+impl mpc_err_t
+{
+	pub fn new(failure: &str) -> mpc_err_t
+	{
+		mpc_err_t
+		{
+			state: mpc_state_t
+			{
+				pos: 0,
+				row: 0,
+				col: 0,
+			},
+			expected_num: 0,
+			filename: c_str!("<input>"),
+			failure: c_str!(failure),
+			expected: 0 as *const *const c_char
+		}
+	}
+}
+
 /*
 ** Parsing Types
 */

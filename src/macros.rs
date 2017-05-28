@@ -114,16 +114,19 @@ macro_rules! parser
 	 parsers: $($p:ident)+) =>
 	{{ unsafe {
 		use glue;
+		use std::io::Read;
 		use std::os::raw::c_void;
 		use std::fs::File;
 
 		let mut input = String::new();
-		if let Some(thing) = File::open($filename)
+		if let Ok(mut ay) = File::open($filename)
 		{
-			thing.read_to_string(&input);
-		} else { None } /* expecting user to check if the
-		                 * file's readable beforehand
-		                 */
+			ay.read_to_string(&mut input);
+		};
+		if input == String::new()
+		{
+			panic!();
+		}
 		let $top = mpc_new(c_str!(stringify!($top)));
 		$
 		(
@@ -238,12 +241,12 @@ macro_rules! run_parser
 		use std::fs::File;
 
 		let mut input = String::new();
-		if let Some(thing) = File::open($filename)
+		if let Ok(mut ay) = File::open($filename)
 		{
-			thing.read_to_string(&input);
-		} else { None } /* expecting user to check if the
-		                 * file's readable beforehand
-		                 */
+			ay.read_to_string(&mut input);
+		};
+		if input == String::new()
+			{panic!();}
 		glue::parse(
 			c_str!($filename),
 			c_str!(input),

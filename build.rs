@@ -2,5 +2,9 @@ extern crate gcc;
 
 fn main()
 {
-	gcc::compile_library("libmpc.a", &["src/mpc.c", "src/glue.c"]);
+	gcc::Config::new()
+		.file("src/mpc.c")
+		.file("src/glue.c")
+		.flag("-std=gnu99")
+		.compile("libmpc.a");
 }
