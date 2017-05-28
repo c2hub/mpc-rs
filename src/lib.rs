@@ -5,7 +5,7 @@
 #![deny(warnings, missing_docs)]
 
 pub mod glue;
-mod colors;
+pub mod colors;
 
 #[macro_use]
 mod macros;
