@@ -1,3 +1,0 @@
-module test;
-
-int32 test = 5;
