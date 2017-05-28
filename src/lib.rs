@@ -8,7 +8,7 @@ pub mod glue;
 pub mod colors;
 
 #[macro_use]
-mod macros;
+pub mod macros;
 
 mod mpc_c;
 mod ast;
