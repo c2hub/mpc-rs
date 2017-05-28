@@ -12,7 +12,7 @@ pub mod macros;
 
 pub mod mpc_c;
 pub mod ast;
-mod mpc_c_types;
+pub mod mpc_c_types;
 
 #[cfg(test)]
 mod test;
