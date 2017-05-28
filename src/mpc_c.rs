@@ -1,3 +1,4 @@
+//! Contains `mpc` function definitions
 #![allow(dead_code)]
 #![allow(improper_ctypes)]
 

@@ -10,7 +10,7 @@ pub mod colors;
 #[macro_use]
 pub mod macros;
 
-mod mpc_c;
+pub mod mpc_c;
 mod ast;
 mod mpc_c_types;
 
