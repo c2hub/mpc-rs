@@ -11,7 +11,7 @@ pub mod colors;
 pub mod macros;
 
 pub mod mpc_c;
-mod ast;
+pub mod ast;
 mod mpc_c_types;
 
 #[cfg(test)]

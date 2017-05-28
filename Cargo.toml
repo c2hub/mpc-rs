@@ -1,6 +1,6 @@
 [package]
 name = "mpc"
-version = "0.1.6"
+version = "0.1.7"
 description = "WIP bindings for orangeduck's mpc (Micro Parser Combinators) library"
 authors = ["Lukáš Hozda <luk.hozda@gmail.com>"]
 build = "build.rs"
