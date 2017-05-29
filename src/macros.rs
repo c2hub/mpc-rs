@@ -81,11 +81,14 @@ macro_rules! traceln
 /// # Usage
 ///
 /// ```rust
-/// g_string![
+/// # #[macro_use] extern crate mpc;
+/// # fn main() {
+/// let _ = g_string![
 ///      "So many strings\n"
 ///      "So many options\n"
 ///      "So much things\n"
-/// ]
+/// ];
+/// # }
 /// ```
 #[macro_export]
 macro_rules! g_string /* couldn't help it */
@@ -104,7 +107,10 @@ macro_rules! g_string /* couldn't help it */
 /// in the form of something stringy:
 ///
 /// ```rust
-/// parser!
+/// # #[macro_use] extern crate mpc;
+/// # #[allow(unused_variables)]
+/// # fn main() {
+/// let my_result = parser!
 /// {
 ///     grammar:{g_string![
 ///	         "word : /[a-zA-Z0-9]+/;                         \n"
@@ -117,13 +123,16 @@ macro_rules! g_string /* couldn't help it */
 ///             "Bananas are awesome. What do you mean, potato?"}
 ///     main: paragraph
 ///     parsers: word punct sentence
-/// }
+/// };
+/// # }
 /// ```
 ///
 /// 2. To do the same, but automatically read the file:
 ///
-/// ```rust
-/// parser!
+/// ```no_run
+/// # #[macro_use] extern crate mpc;
+/// # fn main() {
+/// let my_result = parser!
 /// {
 ///     grammar:{g_string![
 ///	         "word : /[a-zA-Z0-9]+/;                         \n"
@@ -134,13 +143,17 @@ macro_rules! g_string /* couldn't help it */
 ///     filename: {"myfilename.txt"}
 ///     main: paragraph
 ///     parsers: word punct sentence
-/// }
+/// };
+/// # }
 /// ```
 ///
 /// 3. Parse input without a filename:
 ///
 /// ```rust
-/// parser!
+/// # #[macro_use] extern crate mpc;
+/// # #[allow(unused_variables)]
+/// # fn main() {
+/// let my_result = parser!
 /// {
 ///     grammar:{g_string![
 ///	         "word : /[a-zA-Z0-9]+/;                         \n"
@@ -152,13 +165,17 @@ macro_rules! g_string /* couldn't help it */
 ///               "Bananas are awesome. What do you mean, potato?"}
 ///      main: paragraph
 ///      parsers: word punct sentence
-/// }
+/// };
+/// # }
 /// ```
 ///
 /// 4. Prepare parsers for later use:
 ///
 /// ```rust
-/// parser!
+/// # #[macro_use] extern crate mpc;
+/// # #[allow(unused_variables)]
+/// # fn main() {
+/// let my_parser = parser!
 /// {
 ///     grammar:{g_string![
 ///	         "word : /[a-zA-Z0-9]+/;                         \n"
@@ -168,7 +185,8 @@ macro_rules! g_string /* couldn't help it */
 ///     ]}
 ///     main: paragraph
 ///     parsers: word punct sentence
-/// }
+/// };
+/// # }
 /// ```
 /// For cases 1-3 `parser!` returns `Result<*mut mpc_ast_t, *mut mpc_err_t>`
 /// In case 4 `parser!` returns a vector containing prepared parsers. The vector
@@ -184,8 +202,11 @@ macro_rules! parser
 	 main: $top:ident
 	 parsers: $($p:ident)+) =>
 	{{ unsafe {
-		use glue;
+		use mpc::glue;
+		use mpc::mpc_c::*;
+		use mpc::mpc_c_types::*;
 		use std::os::raw::c_void;
+
 		let $top = mpc_new(c_str!(stringify!($top)));
 		$
 		(
@@ -212,7 +233,9 @@ macro_rules! parser
 	 main: $top:ident
 	 parsers: $($p:ident)+) =>
 	{{ unsafe {
-		use glue;
+		use mpc::glue;
+		use mpc::mpc_c::*;
+		use mpc::mpc_c_types::*;
 		use std::io::Read;
 		use std::os::raw::c_void;
 		use std::fs::File;
@@ -220,7 +243,7 @@ macro_rules! parser
 		let mut input = String::new();
 		if let Ok(mut ay) = File::open($filename)
 		{
-			ay.read_to_string(&mut input);
+			let _ = ay.read_to_string(&mut input);
 		};
 		if input == String::new()
 		{
@@ -252,7 +275,9 @@ macro_rules! parser
 	 main: $top:ident
 	 parsers: $($p:ident)+) =>
 	{{ unsafe {
-		use glue;
+		use mpc::glue;
+		use mpc::mpc_c::*;
+		use mpc::mpc_c_types::*;
 		use std::os::raw::c_void;
 		let $top = mpc_new(c_str!(stringify!($top)));
 		$
@@ -279,6 +304,8 @@ macro_rules! parser
 	 main: $top:ident
 	 parsers: $($p:ident)+) =>
 	{{ unsafe {
+		use mpc::mpc_c::*;
+		use mpc::mpc_c_types::*;
 		use std::os::raw::c_void;
 
 		//need just the reference to topmost one,
@@ -314,7 +341,7 @@ macro_rules! run_parser
 	 filename: {$filename:expr}
 	 input: {$input:expr}) =>
 	{{
-		use glue;
+		use mpc::glue;
 
 		glue::parse(
 			c_str!($filename),
@@ -325,7 +352,7 @@ macro_rules! run_parser
 	(preparsers: $preparsers:ident
 	 input: {$input:expr}) =>
 	{{
-		use glue;
+		use mpc::glue;
 
 		glue::parse(
 			c_str!("<input>"),
@@ -336,7 +363,7 @@ macro_rules! run_parser
 	(preparsers: $preparsers:ident
 	 filename: {$filename:expr}) =>
 	{{
-		use glue;
+		use mpc::glue;
 		use std::fs::File;
 
 		let mut input = String::new();

@@ -1,7 +1,9 @@
+#![cfg(test)]
 use glue;
 use ast::*;
 use mpc_c::*;
 use mpc_c_types::*;
+
 
 #[test]
 fn mpca_parse()

@@ -14,5 +14,4 @@ pub mod mpc_c;
 pub mod ast;
 pub mod mpc_c_types;
 
-#[cfg(test)]
 mod test;
