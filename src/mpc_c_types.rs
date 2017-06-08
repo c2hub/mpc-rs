@@ -74,23 +74,6 @@ impl mpc_err_t
 /// mpc_val_t is an alias to void in C as well
 pub type mpc_val_t = c_void;
 
-/// This is a union in C, it should look differently.
-/// Both members have the same size, since both are pointers.
-#[repr(C)]
-pub struct mpc_result_t
-{
-	/// Pointer to either error or ast,
-	/// terribly unsafe
-	/// std::mem::transmute for turning one into another
-	/// the only indicator what is the underlying type
-	/// is `mpc_parse()`'s return value:
-	///
-	/// 1 => *mut mpc_ast_t
-	///
-	/// 0 => *mut mpc_err_t
-	pub output: *mut mpc_err_t
-}
-
 /// Parser type, implementation is hidden and very complex
 /// for me to represent it in Rust.
 /// Besides, it is really only needed to be used as a pointer
@@ -161,4 +144,18 @@ pub enum mpca_lang_type
 	MPCA_LANG_PREDICTIVE = 1,
 	/// Whitespace sensitive lang type
 	MPCA_LANG_WHITESPACE_SENSITIVE = 2,
+}
+
+/// Pointer to either error or ast,
+/// depends on the return value of `mpc_parse()`
+/// 1 => *mut mpc_ast_t
+///
+/// 0 => *mut mpc_err_t
+#[repr(C)]
+pub union mpc_result_t
+{
+	/// pointer to error
+	pub error: *mut mpc_err_t,
+	/// pointer to ast
+	pub output: *mut mpc_ast_t,
 }

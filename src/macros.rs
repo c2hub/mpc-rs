@@ -1,5 +1,5 @@
 //! Contains some nice macros to help with needed FFI and parser creation
-//! The str_c! and c_str! macros exist because ownership issues
+//! The str_c! and c_str! macros exist because of ownership issues
 
 /// Convert a rustic string (whether `&str` or `String`) to C's `const char*`
 #[macro_export]

@@ -205,10 +205,14 @@ extern
 	/*
 	** Useful Parsers
 	*/
+	/// matches the start of input followed by `a`
 	pub fn mpc_startwith(a: *mut mpc_parser_t) -> *mut mpc_parser_t;
+	/// matches the end of input followed by `a`
 	pub fn mpc_endwith(a: *mut mpc_parser_t, da: mpc_dtor_t) -> *mut mpc_parser_t;
+	/// matches input from start to end
 	pub fn mpc_whole(a: *mut mpc_parser_t, da: mpc_dtor_t) -> *mut mpc_parser_t;
 
+	/// matches input starting
 	pub fn mpc_stripl(a: *mut mpc_parser_t) -> *mut mpc_parser_t;
 	pub fn mpc_stripr(a: *mut mpc_parser_t) -> *mut mpc_parser_t;
 	pub fn mpc_strip(a: *mut mpc_parser_t) -> *mut mpc_parser_t;
